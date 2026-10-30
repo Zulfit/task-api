@@ -6,9 +6,16 @@ import { Task } from './entities/task.entity.js';
 @Injectable()
 export class TasksService {
   private tasks: Task[] = [];
+  private nextId = 1;
 
   create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+    const newTask: Task = {
+      id: this.nextId++,
+      ...createTaskDto,
+      done: createTaskDto.done || false,
+    };
+    this.tasks.push(newTask);
+    return newTask;
   }
 
   findAll() {
@@ -22,10 +29,17 @@ export class TasksService {
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+    const task = this.findOne(id);
+    const updatedTask: Task = {
+      ...task,
+      ...updateTaskDto,
+    };
+    this.tasks = this.tasks.map(t => t.id === id ? updatedTask : t);
+    return updatedTask;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} task`;
+    this.tasks = this.tasks.filter(t => t.id !== id);
+    return { message: `Task with id ${id} deleted` };
   }
 }
