@@ -1,19 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto.js';
 import { UpdateTaskDto } from './dto/update-task.dto.js';
+import { Task } from './entities/task.entity.js';
 
 @Injectable()
 export class TasksService {
+  private tasks: Task[] = [];
+
   create(createTaskDto: CreateTaskDto) {
     return 'This action adds a new task';
   }
 
   findAll() {
-    return [{ id: 1, title: 'Learn Nest', done: false }];
+    return this.tasks;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} task`;
+    const task = this.tasks.find(task => task.id === id);
+    if (!task) throw new NotFoundException(`Task with id ${id} not found`);
+    return task;
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
