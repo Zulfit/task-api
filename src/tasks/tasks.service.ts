@@ -12,7 +12,8 @@ export class TasksService {
     const newTask: Task = {
       id: this.nextId++,
       ...createTaskDto,
-      done: createTaskDto.done || false,
+      done: createTaskDto.done ??
+       false,
     };
     this.tasks.push(newTask);
     return newTask;
@@ -39,7 +40,8 @@ export class TasksService {
   }
 
   remove(id: number) {
+    const task = this.findOne(id);
     this.tasks = this.tasks.filter(t => t.id !== id);
-    return { message: `Task with id ${id} deleted` };
+    return task;
   }
 }
