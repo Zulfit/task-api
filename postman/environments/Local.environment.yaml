@@ -1,0 +1,25 @@
+name: Local
+values:
+  - key: base_url
+    value: 'http://localhost:3000'
+    enabled: true
+    type: default
+    description: Local NestJS server
+  - key: email
+    value: demo@example.com
+    enabled: true
+    type: default
+  - key: password
+    value: password123
+    enabled: true
+    type: secret
+  - key: access_token
+    value: ''
+    enabled: true
+    type: secret
+    description: Set automatically by Auth → Login
+  - key: task_id
+    value: '1'
+    enabled: true
+    type: default
+    description: Set automatically by Tasks → Create Task

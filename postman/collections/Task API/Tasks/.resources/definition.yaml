@@ -1,0 +1,9 @@
+$kind: collection
+name: Tasks
+description: CRUD for the authenticated user's tasks. Requires Bearer access_token from Login.
+order: 2000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

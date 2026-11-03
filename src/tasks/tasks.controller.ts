@@ -1,34 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { TasksService } from './tasks.service.js';
 import { CreateTaskDto } from './dto/create-task.dto.js';
 import { UpdateTaskDto } from './dto/update-task.dto.js';
+import { UserId } from '../auth/user.decorator.js';
+import { AuthGuard } from '../auth/auth.guard.js';
 
+@UseGuards(AuthGuard)
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(createTaskDto);
+  create(@Body() createTaskDto: CreateTaskDto, @UserId() userId: number) {
+    return this.tasksService.create(createTaskDto, userId);
   }
 
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  findAll(@UserId() userId: number) {
+    return this.tasksService.findAll(userId);
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.tasksService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number, @UserId() userId: number) {
+    return this.tasksService.findOne(id, userId);
   }
   
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(id, updateTaskDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateTaskDto: UpdateTaskDto, @UserId() userId: number) {
+    return this.tasksService.update(id, updateTaskDto, userId);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.tasksService.remove(id);
+  remove(@Param('id', ParseIntPipe) id: number, @UserId() userId: number) {
+    return this.tasksService.remove(id, userId);
   }
 }

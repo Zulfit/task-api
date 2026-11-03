@@ -1,0 +1,9 @@
+cloudResources:
+  collections:
+    ../postman/collections/Task API: 47903776-5a03bc02-952a-4081-a755-0b722ed2cb7f
+  environments:
+    ../postman/environments/Local.environment.yaml: 47903776-b5ea53eb-565c-41c5-9cf5-241c2194d2f7
+  globals:
+    ../postman/globals/workspace.globals.yaml: b18cf650-5052-466e-8c47-5fb2487dc243
+workspace:
+  id: d21cbf93-2e7b-4000-8d1f-9b6ee525fc9f

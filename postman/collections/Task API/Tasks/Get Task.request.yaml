@@ -1,0 +1,20 @@
+$kind: http-request
+name: Get Task
+method: GET
+url: '{{base_url}}/tasks/:id'
+order: 3000
+pathVariables:
+  - key: id
+    value: '{{task_id}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Get task returns 200', function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test('Task id matches request', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('id', Number(pm.environment.get('task_id')));
+        pm.expect(body).to.have.property('title');
+      });

@@ -1,0 +1,9 @@
+$kind: collection
+name: Task API
+description: |-
+  Auth and task endpoints for the NestJS task-api.
+  Run Auth → Login first so `access_token` is set for Tasks requests.
+variables:
+  - key: base_url
+    value: 'http://localhost:3000'
+    description: Fallback base URL when no environment is selected

@@ -1,0 +1,31 @@
+$kind: http-request
+name: Create Task
+method: POST
+url: '{{base_url}}/tasks'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Buy groceries",
+      "done": false
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Create task returns 201', function () {
+        pm.response.to.have.status(201);
+      });
+      pm.test('Task includes id and title', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('id');
+        pm.expect(body).to.have.property('title', 'Buy groceries');
+        pm.expect(body).to.have.property('done', false);
+        pm.expect(body).to.have.property('userId');
+        pm.environment.set('task_id', String(body.id));
+      });
+examples: './.resources/Create Task.resources/examples/'

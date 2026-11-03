@@ -1,0 +1,6 @@
+$kind: collection
+name: Auth
+description: Register and login (no bearer token required)
+order: 1000
+auth:
+  type: noauth

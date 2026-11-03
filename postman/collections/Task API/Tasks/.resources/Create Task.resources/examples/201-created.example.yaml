@@ -1,0 +1,35 @@
+$kind: http-example
+name: 201 Created
+request:
+  method: POST
+  url: '{{base_url}}/tasks'
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: 'Bearer {{access_token}}'
+  body:
+    type: json
+    content: |-
+      {
+        "title": "Buy groceries",
+        "done": false
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "title": "Buy groceries",
+        "done": false,
+        "createdAt": "2026-11-03T01:05:00.000Z",
+        "updatedAt": "2026-11-03T01:05:00.000Z",
+        "userId": 1
+      }
+order: 1000

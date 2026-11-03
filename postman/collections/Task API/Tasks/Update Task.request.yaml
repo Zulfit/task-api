@@ -1,0 +1,30 @@
+$kind: http-request
+name: Update Task
+method: PATCH
+url: '{{base_url}}/tasks/:id'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+pathVariables:
+  - key: id
+    value: '{{task_id}}'
+body:
+  type: json
+  content: |-
+    {
+      "title": "Buy groceries",
+      "done": true
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Update task returns 200', function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test('Task is marked done', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('done', true);
+        pm.expect(body).to.have.property('id', Number(pm.environment.get('task_id')));
+      });
