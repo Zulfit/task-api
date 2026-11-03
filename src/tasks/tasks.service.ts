@@ -7,31 +7,31 @@ import { PrismaService } from '../prisma/prisma.service.js';
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createTaskDto: CreateTaskDto) {
+  create(createTaskDto: CreateTaskDto, userId: number) {
     return this.prisma.task.create({
-      data: createTaskDto,
+      data: { ...createTaskDto, userId },
     });
   }
 
-  findAll() {
-    return this.prisma.task.findMany();
+  findAll(userId: number) {
+    return this.prisma.task.findMany({ where: { userId } });
   }
 
-  async findOne(id: number) {
-    const foundTask = await this.prisma.task.findUnique({
-      where: { id },
+  async findOne(id: number, userId: number) {
+    const foundTask = await this.prisma.task.findFirst({
+      where: { id, userId },
     });
     if (!foundTask) throw new NotFoundException(`Task with id ${id} not found`);
     return foundTask;
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
-    await this.findOne(id);
-    return this.prisma.task.update({ where: { id }, data: updateTaskDto });
+  async update(id: number, updateTaskDto: UpdateTaskDto, userId: number) {
+    await this.findOne(id, userId);
+    return this.prisma.task.update({ where: { id, userId }, data: updateTaskDto });
   }
 
-  async remove(id: number) {
-    await this.findOne(id);
-    return this.prisma.task.delete({ where: { id } });
+  async remove(id: number, userId: number) {
+    await this.findOne(id, userId);
+    return this.prisma.task.delete({ where: { id, userId } });
   }
 }
